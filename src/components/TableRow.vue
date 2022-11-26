@@ -1,13 +1,34 @@
-<script setup></script>
+<script setup>
+import { computed, defineProps, onMounted, ref } from "vue";
+import moment from "moment";
+const empolyee = ref({});
+
+const props = defineProps({
+  data: {
+    type: Object,
+  },
+});
+
+onMounted(() => {
+  const { data } = props;
+  empolyee.value = data;
+});
+
+const createdAt = computed(() => {
+  return moment(new Date(empolyee.value.created))
+    .format("DD/MM/YYYY")
+    .replace(/\//g, ".");
+});
+</script>
 
 <template>
   <tr class="table-row">
-    <td>Lou</td>
-    <td>Aufderhar</td>
-    <td>Lou.Aufderhar@rico.com</td>
-    <td>025 Pouros Neck</td>
-    <td>October 5, 2013</td>
-    <td>$6,553.91</td>
+    <td>{{ empolyee.first }}</td>
+    <td>{{ empolyee.last }}</td>
+    <td>{{ empolyee.address }}</td>
+    <td>{{ empolyee.email }}</td>
+    <td>{{ createdAt }}</td>
+    <td>{{ empolyee.balance }}</td>
   </tr>
 </template>
 
